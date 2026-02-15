@@ -1,0 +1,35 @@
+{
+    "name": "pablouser1/umawrapper",
+    "description": "Wrapper de la API de la Universidad de Málaga",
+    "license": "MIT",
+    "type": "library",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Pablo Ferreiro",
+            "email": "contact@pabloferreiro.es"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "ext-curl": "*",
+        "ext-dom": "*",
+        "ext-mbstring": "*",
+        "psr/simple-cache": "^3.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^4.3",
+        "pestphp/pest-plugin-faker": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "UMA\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
