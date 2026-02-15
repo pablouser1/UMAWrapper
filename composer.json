@@ -3,7 +3,7 @@
     "description": "Wrapper de la API de la Universidad de Málaga",
     "license": "MIT",
     "type": "library",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Pablo Ferreiro",
