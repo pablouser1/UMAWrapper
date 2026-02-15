@@ -28,3 +28,8 @@ Con PHPDoc instalado, ejecuta:
 ```bash
 phpdoc
 ```
+
+## Tests
+```bash
+./vendor/bin/pest
+```
