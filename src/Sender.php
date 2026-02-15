@@ -39,14 +39,14 @@ class Sender
         if ($cacheEnabled) {
             $cached = $this->cache->get($cacheKey);
             if ($cached !== null) {
-                return new Response(200, unserialize($cached));
+                return new Response(200, $cached);
             }
         }
 
         $res = $this->send($endpoint, $parser, $body, $headers, $cookies, $isJson);
 
         if ($res->success && $cacheEnabled) {
-            $this->cache->set($cacheKey, serialize($res->data));
+            $this->cache->set($cacheKey, $res->data);
         }
 
         return $res;
