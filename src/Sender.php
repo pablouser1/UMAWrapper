@@ -16,6 +16,7 @@ class Sender
     private const string BASE_API = "https://duma.uma.es/api/appuma";
     private const string BASE_WEB = "https://duma.uma.es/duma";
     private const string CACHE_PREFIX = 'uma_';
+    private const int TTL = 86400;
     private string $csrfFile;
     private ?CacheInterface $cache;
 
@@ -32,7 +33,8 @@ class Sender
         array $headers = [],
         string $cookies = '',
         bool $isJson = true,
-        bool $caching = true
+        bool $caching = true,
+        int $ttl = self::TTL
     ): Response {
         $cacheEnabled = $caching && $this->hasCache();
         $cacheKey = $cacheEnabled ? $this->buildCacheKey($endpoint) : null;
@@ -46,7 +48,7 @@ class Sender
         $res = $this->send($endpoint, $parser, $body, $headers, $cookies, $isJson);
 
         if ($res->success && $cacheEnabled) {
-            $this->cache->set($cacheKey, $res->data);
+            $this->cache->set($cacheKey, $res->data, $ttl);
         }
 
         return $res;

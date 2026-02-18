@@ -20,7 +20,10 @@ class Api
 
     public function centros(): Response
     {
-        return $this->sender->request('/centros/listado/');
+        return $this->sender->request(
+            endpoint: '/centros/listado/',
+            ttl: 604800 // 1 semana
+        );
     }
 
     /**
@@ -60,7 +63,11 @@ class Api
      */
     public function profesorWeb(string $idnc): Response
     {
-        return $this->sender->request('/buscador/persona/' . $idnc . '/', new IdncToEmailParser(), [], [], '', false);
+        return $this->sender->request(
+            endpoint: "/buscador/persona/$idnc/",
+            parser: new IdncToEmailParser(),
+            isJson: false
+        );
     }
 
     /**
@@ -75,19 +82,27 @@ class Api
 
         $cookies = "csrftoken=$csrf";
 
-        return $this->sender->request('/buscador/persona/', new SearchParser(), [
-            "csrfmiddlewaretoken" => $csrf,
-            "pas" => "off",
-            "pdi" => "on",
-            "nombre" => $nombre,
-            "apellido_1" => $apellido_1,
-            "apellido_2" => $apellido_2,
-            "email" => "",
-            "telefono" => "",
-            "centro" => "",
-            "departamento" => "",
-            "general" => ""
-        ], $headers, $cookies, false, false);
+        return $this->sender->request(
+            endpoint: '/buscador/persona/',
+            parser: new SearchParser(),
+            body: [
+                "csrfmiddlewaretoken" => $csrf,
+                "pas" => "off",
+                "pdi" => "on",
+                "nombre" => $nombre,
+                "apellido_1" => $apellido_1,
+                "apellido_2" => $apellido_2,
+                "email" => "",
+                "telefono" => "",
+                "centro" => "",
+                "departamento" => "",
+                "general" => "",
+            ],
+            headers: $headers,
+            cookies: $cookies,
+            isJson: false,
+            caching: false
+        );
     }
 
     public function departamentos(string $codigo): Response
