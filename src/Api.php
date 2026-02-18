@@ -2,7 +2,16 @@
 
 namespace UMA;
 
+use UMA\Models\Asignatura;
+use UMA\Models\Centro;
+use UMA\Models\Departamento;
+use UMA\Models\Personal;
+use UMA\Models\Plan;
+use UMA\Models\Profesor;
 use UMA\Models\Response;
+use UMA\Models\SearchResult;
+use UMA\Models\Titulacion;
+use UMA\Parsers\ApiParser;
 use UMA\Parsers\IdncToEmailParser;
 use UMA\Parsers\SearchParser;
 
@@ -18,48 +27,74 @@ class Api
         $this->sender = new Sender($options->csrfFile, $options->cache);
     }
 
+    /**
+     * @return Response<Centro[]>
+     */
     public function centros(): Response
     {
         return $this->sender->request(
             endpoint: '/centros/listado/',
+            parser: new ApiParser(Centro::class),
             ttl: 604800 // 1 semana
         );
     }
 
     /**
-     * Titulaciones a partir del id del centro
+     * Titulaciones a partir de código de centro.
+     *
+     * @return Response<Titulacion[]>
      */
-    public function titulaciones(int $id): Response
+    public function titulaciones(int $centro_id): Response
     {
-        return $this->sender->request("/centros/titulaciones/$id/");
+        return $this->sender->request(
+            endpoint: "/centros/titulaciones/$centro_id/",
+            parser: new ApiParser(Titulacion::class)
+        );
     }
 
     /**
-     * Plan a partir de su id
+     * Plan a partir de id de titulación.
+     *
+     * @return Response<Plan>
      */
     public function plan(int $id): Response
     {
-        return $this->sender->request("/plan/$id/");
+        return $this->sender->request(
+            endpoint: "/plan/$id/",
+            parser: new ApiParser(Plan::class, isCollection: false),
+        );
     }
 
     /**
-     * Asignatura usando el ID de la asignatura y el ID del plan asociado
+     * Asignatura usando el ID de la asignatura y el ID del plan asociado.
+     *
+     * @return Response<Asignatura>
      */
     public function asignatura(int $asignatura_id, int $plan_id): Response
     {
-        return $this->sender->request("/asignatura/$asignatura_id/$plan_id/");
+        return $this->sender->request(
+            endpoint: "/asignatura/$asignatura_id/$plan_id/",
+            parser: new ApiParser(Asignatura::class, isCollection: false)
+        );
     }
 
     /**
-     * Profesor usando su correo electrónico
+     * Profesor usando su correo electrónico.
+     *
+     * @return Response<Profesor>
      */
     public function profesor(string $email): Response
     {
-        return $this->sender->request("/profesor/$email/");
+        return $this->sender->request(
+            endpoint: "/profesor/$email/",
+            parser: new ApiParser(Profesor::class, isCollection: false)
+        );
     }
 
     /**
      * Convierte un idnc a email haciendo scraping en la web
+     *
+     * @return Response<string>
      */
     public function profesorWeb(string $idnc): Response
     {
@@ -72,6 +107,8 @@ class Api
 
     /**
      * Hacer búsqueda por DUMA vía web scraping.
+     *
+     * @return Response<SearchResult>
      */
     public function buscar(string $nombre, string $apellido_1, string $apellido_2): Response
     {
@@ -105,13 +142,25 @@ class Api
         );
     }
 
+    /**
+     * @return Response<Departamento[]>
+     */
     public function departamentos(string $codigo): Response
     {
-        return $this->sender->request("/departamentos/listado/$codigo/");
+        return $this->sender->request(
+            endpoint: "/departamentos/listado/$codigo/",
+            parser: new ApiParser(Departamento::class)
+        );
     }
 
+    /**
+     * @return Response<Personal[]>
+     */
     public function personal(string $codigo): Response
     {
-        return $this->sender->request("/departamentos/personal/$codigo/");
+        return $this->sender->request(
+            endpoint: "/departamentos/personal/$codigo/",
+            parser: new ApiParser(Personal::class)
+        );
     }
 }

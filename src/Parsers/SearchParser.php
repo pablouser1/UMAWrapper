@@ -4,6 +4,7 @@ namespace UMA\Parsers;
 
 use UMA\Helpers\Document;
 use UMA\Models\Response;
+use UMA\Models\SearchResult;
 
 /**
  * Parser for DUMA search.
@@ -26,13 +27,13 @@ class SearchParser implements IParser
                 $a = $h4->childNodes->item(2);
                 $url = $a?->attributes?->getNamedItem('href')?->nodeValue;
                 if ($url) {
-                    $results[] = (object) [
-                        'name' => mb_convert_encoding(
+                    $results[] = new SearchResult(
+                        nombre: mb_convert_encoding(
                             string: $a->textContent,
                             to_encoding: 'ISO-8859-1'
-                        ), // Sin el mb_convert_encoding los caractéres especiales salen mal
-                        'idnc' => basename($url)
-                    ];
+                        ),
+                        idnc: basename($url)
+                    );
                 }
             }
         }

@@ -5,7 +5,6 @@ namespace UMA;
 use Composer\InstalledVersions;
 use Psr\SimpleCache\CacheInterface;
 use UMA\Models\Response;
-use UMA\Parsers\ApiParser;
 use UMA\Parsers\IParser;
 
 /**
@@ -28,7 +27,7 @@ class Sender
 
     public function request(
         string $endpoint,
-        IParser $parser = new ApiParser(),
+        IParser $parser,
         array $body = [],
         array $headers = [],
         string $cookies = '',
@@ -41,7 +40,7 @@ class Sender
         if ($cacheEnabled) {
             $cached = $this->cache->get($cacheKey);
             if ($cached !== null) {
-                return new Response(200, $cached);
+                return Response::success(200, $cached);
             }
         }
 
@@ -135,7 +134,7 @@ class Sender
             return Response::fromRaw($code, $data, $parser);
         }
 
-        return new Response(502);
+        return Response::failure(502, 'Network error');
     }
 
     private function getUserAgent(): string

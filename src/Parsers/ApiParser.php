@@ -4,34 +4,47 @@ namespace UMA\Parsers;
 
 use UMA\Models\Response;
 
-/**
- * Parser for all JSON-based endpoints.
- */
 class ApiParser implements IParser
 {
+    /**
+     * @param class-string $dtoClass The FQCN of the DTO
+     * @param bool $isCollection Return array of $dtoClass
+     */
+    public function __construct(
+        private string $dtoClass,
+        private bool $isCollection = true
+    ) {}
+
     public function handle(int $initialCode, string $rawPayload): Response
     {
-        $json = json_decode($rawPayload);
-        if ($json === null) {
-            return new Response(code: 502, error: 'JSON inválido');
+        $json = json_decode($rawPayload, true);
+
+        if (!$json) {
+            return Response::failure(502, 'JSON inválido');
         }
 
-        if (empty($json)) {
-            return new Response(code: 502, error: 'Cuerpo vacío');
+        if (isset($json['error']) && $json['error']) {
+            return Response::failure(404, $json['nombre'] ?? 'Recurso no encontrado');
         }
 
-        if (isset($json->error) && $json->error) {
-            return new Response(404, error: $json->nombre ?? 'Recurso no encontrado');
+        if (isset($json['creditos']) && $json['creditos'] === '') {
+            return Response::failure(404, 'Este plan no existe');
         }
 
-        if (isset($json->creditos) && $json->creditos === '') {
-            return new Response(404, error: 'Este plan no existe');
+        if (isset($json['ERROR'])) {
+            return Response::failure(502, $json['ERROR']);
         }
 
-        if (isset($json->ERROR)) {
-            return new Response(502, error: $json->ERROR);
-        }
+        // -- Mapping -- //
+        try {
+            if ($this->isCollection && is_array($json)) {
+                $mapped = array_map(fn($item) => $this->dtoClass::fromArray($item), $json);
+                return Response::success($initialCode, $mapped);
+            }
 
-        return new Response($initialCode, data: $json);
+            return Response::success($initialCode, $this->dtoClass::fromArray($json));
+        } catch (\Throwable $e) {
+            return Response::failure(500, error: "Mapping Error: " . $e->getMessage());
+        }
     }
 }

@@ -32,10 +32,9 @@ class IdncToEmailParser implements IParser
         }
 
         if ($email !== '') {
-            $data = (object) ['email' => $email];
-            return new Response($initialCode, $data);
+            return Response::success($initialCode, $email);
         }
 
-        return new Response($initialCode, 'No se pudo procesar el documento');
+        return Response::failure($initialCode, 'No se pudo procesar el documento');
     }
 }
