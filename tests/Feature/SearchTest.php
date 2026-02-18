@@ -9,7 +9,7 @@ test('success response with valid search term', function (string $nombre, string
 })->with([['sixto', 'sanchez', 'merino']]);
 
 test('success response and empty data with invalid search term', function () {
-    $rand = fake()->randomAscii();
+    $rand = fake()->uuid();
     $res = $this->api->buscar($rand, $rand, $rand);
     expect($res->success)->toBeTrue();
     expect($res->data)->toBeArray()->toBeEmpty();
