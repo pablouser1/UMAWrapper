@@ -2,6 +2,7 @@
 
 namespace UMA;
 
+use UMA\Helpers\Time;
 use UMA\Models\Asignatura;
 use UMA\Models\Centro;
 use UMA\Models\Departamento;
@@ -35,7 +36,7 @@ class Api
         return $this->sender->request(
             endpoint: '/centros/listado/',
             parser: new ApiParser(Centro::class),
-            ttl: 604800, // 1 semana
+            ttl: Time::MONTH,
         );
     }
 
@@ -49,6 +50,7 @@ class Api
         return $this->sender->request(
             endpoint: "/centros/titulaciones/$centro_id/",
             parser: new ApiParser(Titulacion::class),
+            ttl: Time::WEEK,
         );
     }
 
@@ -62,6 +64,7 @@ class Api
         return $this->sender->request(
             endpoint: "/plan/$id/",
             parser: new ApiParser(Plan::class, isCollection: false),
+            ttl: Time::WEEK,
         );
     }
 
