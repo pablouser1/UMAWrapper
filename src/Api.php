@@ -35,7 +35,7 @@ class Api
         return $this->sender->request(
             endpoint: '/centros/listado/',
             parser: new ApiParser(Centro::class),
-            ttl: 604800 // 1 semana
+            ttl: 604800, // 1 semana
         );
     }
 
@@ -48,7 +48,7 @@ class Api
     {
         return $this->sender->request(
             endpoint: "/centros/titulaciones/$centro_id/",
-            parser: new ApiParser(Titulacion::class)
+            parser: new ApiParser(Titulacion::class),
         );
     }
 
@@ -74,7 +74,7 @@ class Api
     {
         return $this->sender->request(
             endpoint: "/asignatura/$asignatura_id/$plan_id/",
-            parser: new ApiParser(Asignatura::class, isCollection: false)
+            parser: new ApiParser(Asignatura::class, isCollection: false),
         );
     }
 
@@ -87,7 +87,7 @@ class Api
     {
         return $this->sender->request(
             endpoint: "/profesor/$email/",
-            parser: new ApiParser(Profesor::class, isCollection: false)
+            parser: new ApiParser(Profesor::class, isCollection: false),
         );
     }
 
@@ -101,7 +101,7 @@ class Api
         return $this->sender->request(
             endpoint: "/buscador/persona/$idnc/",
             parser: new IdncToEmailParser(),
-            isJson: false
+            isJson: false,
         );
     }
 
@@ -114,7 +114,7 @@ class Api
     {
         $csrf = $this->sender->getCsrf();
         $headers = [
-            "Referer: https://duma.uma.es/duma/buscador/",
+            'Referer: https://duma.uma.es/duma/buscador/',
         ];
 
         $cookies = "csrftoken=$csrf";
@@ -123,22 +123,22 @@ class Api
             endpoint: '/buscador/persona/',
             parser: new SearchParser(),
             body: [
-                "csrfmiddlewaretoken" => $csrf,
-                "pas" => "off",
-                "pdi" => "on",
-                "nombre" => $nombre,
-                "apellido_1" => $apellido_1,
-                "apellido_2" => $apellido_2,
-                "email" => "",
-                "telefono" => "",
-                "centro" => "",
-                "departamento" => "",
-                "general" => "",
+                'csrfmiddlewaretoken' => $csrf,
+                'pas' => 'off',
+                'pdi' => 'on',
+                'nombre' => $nombre,
+                'apellido_1' => $apellido_1,
+                'apellido_2' => $apellido_2,
+                'email' => '',
+                'telefono' => '',
+                'centro' => '',
+                'departamento' => '',
+                'general' => '',
             ],
             headers: $headers,
             cookies: $cookies,
             isJson: false,
-            caching: false
+            caching: false,
         );
     }
 
@@ -149,7 +149,7 @@ class Api
     {
         return $this->sender->request(
             endpoint: "/departamentos/listado/$codigo/",
-            parser: new ApiParser(Departamento::class)
+            parser: new ApiParser(Departamento::class),
         );
     }
 
@@ -160,7 +160,7 @@ class Api
     {
         return $this->sender->request(
             endpoint: "/departamentos/personal/$codigo/",
-            parser: new ApiParser(Personal::class)
+            parser: new ApiParser(Personal::class),
         );
     }
 }

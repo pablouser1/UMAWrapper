@@ -31,7 +31,7 @@ readonly class Response
     {
         return new self(
             code: $code,
-            data: $data
+            data: $data,
         );
     }
 
@@ -43,7 +43,7 @@ readonly class Response
         return new self(
             code: $code,
             data: [],
-            error: $error
+            error: $error,
         );
     }
 

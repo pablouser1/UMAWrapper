@@ -1,4 +1,5 @@
 <?php
+
 namespace UMA\Models;
 
 readonly class Profesor
@@ -24,9 +25,9 @@ readonly class Profesor
             nombre: $data['nombre'],
             email: $data['email'],
             telefono: $data['telefono'],
-            tutorias: array_map(fn ($tutoria) => Tutoria::fromArray($tutoria), $data['tutorias']),
+            tutorias: array_map(fn($tutoria) => Tutoria::fromArray($tutoria), $data['tutorias']),
             departamentos: array_map(
-                fn ($temp) => array_map(fn ($departamento) => Departamento::fromArray($departamento), $temp),
+                fn($temp) => array_map(fn($departamento) => Departamento::fromArray($departamento), $temp),
                 $data['departamentos'],
             ),
             jpegPhoto: $data['jpegPhoto'],

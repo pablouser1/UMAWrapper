@@ -2,6 +2,9 @@
 
 namespace UMA\Helpers;
 
+use DOMDocument;
+use DOMNode;
+
 /**
  * Helper for handling HTML.
  */
@@ -10,9 +13,9 @@ class Document
     /**
      * Parse HTML document.
      */
-    public static function parse(string $html): ?\DOMDocument
+    public static function parse(string $html): ?DOMDocument
     {
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $success = @$doc->loadHTML($html);
         return $success ? $doc : null;
     }
@@ -20,7 +23,7 @@ class Document
     /**
      * Replicate innerHtml from Javascript.
      */
-    public static function innerHtml(\DOMNode $element): string
+    public static function innerHtml(DOMNode $element): string
     {
         $innerHTML = '';
         $children = $element->childNodes;

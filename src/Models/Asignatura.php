@@ -1,4 +1,5 @@
 <?php
+
 namespace UMA\Models;
 
 readonly class Asignatura
@@ -32,7 +33,7 @@ readonly class Asignatura
             creditosP: $data['creditosP'],
             tipo: $data['tipo'],
             coordinador: Persona::fromArray($data['coordinador']),
-            grupos: array_map(fn ($grupo) => Grupo::fromArray($grupo), $data['grupos']),
+            grupos: array_map(fn($grupo) => Grupo::fromArray($grupo), $data['grupos']),
             programa: $data['programa'],
         );
     }

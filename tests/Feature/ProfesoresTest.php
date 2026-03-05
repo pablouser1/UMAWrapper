@@ -1,6 +1,7 @@
 <?php
 
 use UMA\Models\Profesor;
+
 use function Pest\Faker\fake;
 
 test('success response with valid id', function (string $correo) {

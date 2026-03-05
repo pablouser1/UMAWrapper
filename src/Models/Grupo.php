@@ -1,4 +1,5 @@
 <?php
+
 namespace UMA\Models;
 
 readonly class Grupo
@@ -16,7 +17,7 @@ readonly class Grupo
         return new self(
             nombre: $data['nombre'],
             aula: $data['aula'],
-            profesores: array_map(fn ($profesor) => Persona::fromArray($profesor), $data['profesores']),
+            profesores: array_map(fn($profesor) => Persona::fromArray($profesor), $data['profesores']),
             horarios: $data['horarios'],
         );
     }

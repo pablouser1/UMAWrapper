@@ -1,6 +1,7 @@
 <?php
 
 use UMA\Models\Asignatura;
+
 use function Pest\Faker\fake;
 
 test('success response with valid id', function (int $asignatura, int $titulacion) {

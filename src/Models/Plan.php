@@ -1,4 +1,5 @@
 <?php
+
 namespace UMA\Models;
 
 readonly class Plan
@@ -15,7 +16,7 @@ readonly class Plan
         return new self(
             duracion: $data['duracion'],
             creditos: $data['creditos'],
-            asignaturas: array_map(fn ($asignatura) => AsignaturaBasic::fromArray($asignatura), $data['asignaturas']),
+            asignaturas: array_map(fn($asignatura) => AsignaturaBasic::fromArray($asignatura), $data['asignaturas']),
         );
     }
 }

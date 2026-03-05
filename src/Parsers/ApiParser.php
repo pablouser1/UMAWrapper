@@ -3,6 +3,9 @@
 namespace UMA\Parsers;
 
 use UMA\Models\Response;
+use Throwable;
+
+use function is_array;
 
 class ApiParser implements IParser
 {
@@ -12,7 +15,7 @@ class ApiParser implements IParser
      */
     public function __construct(
         private string $dtoClass,
-        private bool $isCollection = true
+        private bool $isCollection = true,
     ) {}
 
     public function handle(int $initialCode, string $rawPayload): Response
@@ -43,8 +46,8 @@ class ApiParser implements IParser
             }
 
             return Response::success($initialCode, $this->dtoClass::fromArray($json));
-        } catch (\Throwable $e) {
-            return Response::failure(500, error: "Mapping Error: " . $e->getMessage());
+        } catch (Throwable $e) {
+            return Response::failure(500, error: 'Mapping Error: ' . $e->getMessage());
         }
     }
 }

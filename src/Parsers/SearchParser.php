@@ -30,9 +30,9 @@ class SearchParser implements IParser
                     $results[] = new SearchResult(
                         nombre: mb_convert_encoding(
                             string: $a->textContent,
-                            to_encoding: 'ISO-8859-1'
+                            to_encoding: 'ISO-8859-1',
                         ),
-                        idnc: basename($url)
+                        idnc: basename($url),
                     );
                 }
             }

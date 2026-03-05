@@ -4,6 +4,7 @@ namespace UMA\Parsers;
 
 use UMA\Helpers\Document;
 use UMA\Models\Response;
+use DOMXpath;
 
 /**
  * Parser for IDNC -> Email converter.
@@ -16,8 +17,8 @@ class IdncToEmailParser implements IParser
         $doc = Document::parse($rawPayload);
 
         if ($doc !== null) {
-            $xpath = new \DOMXpath($doc);
-            $elements = $xpath->query("/html/body/div[4]/div[2]/div[2]");
+            $xpath = new DOMXpath($doc);
+            $elements = $xpath->query('/html/body/div[4]/div[2]/div[2]');
             if ($elements !== false && $elements->count() > 0) {
                 $div = $elements->item(0);
 

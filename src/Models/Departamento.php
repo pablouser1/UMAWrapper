@@ -1,4 +1,5 @@
 <?php
+
 namespace UMA\Models;
 
 readonly class Departamento

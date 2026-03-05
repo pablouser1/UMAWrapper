@@ -12,8 +12,8 @@ use UMA\Parsers\IParser;
  */
 class Sender
 {
-    private const string BASE_API = "https://duma.uma.es/api/appuma";
-    private const string BASE_WEB = "https://duma.uma.es/duma";
+    private const string BASE_API = 'https://duma.uma.es/api/appuma';
+    private const string BASE_WEB = 'https://duma.uma.es/duma';
     private const string CACHE_PREFIX = 'uma_';
     private const int TTL = 86400;
     private string $csrfFile;
@@ -33,7 +33,7 @@ class Sender
         string $cookies = '',
         bool $isJson = true,
         bool $caching = true,
-        int $ttl = self::TTL
+        int $ttl = self::TTL,
     ): Response {
         $cacheEnabled = $caching && $this->hasCache();
         $cacheKey = $cacheEnabled ? $this->buildCacheKey($endpoint) : null;
@@ -97,7 +97,7 @@ class Sender
         array $body,
         array $headers,
         string $cookies,
-        bool $isJson
+        bool $isJson,
     ): Response {
         $base = $isJson ? self::BASE_API : self::BASE_WEB;
 
