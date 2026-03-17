@@ -2,6 +2,8 @@
 
 namespace UMA\Models;
 
+use function is_array;
+
 readonly class Asignatura
 {
     public function __construct(
@@ -14,7 +16,7 @@ readonly class Asignatura
         public int $creditosT,
         public int $creditosP,
         public string $tipo,
-        public Persona $coordinador,
+        public ?Persona $coordinador,
         /** @var Grupo[] */
         public array $grupos,
         public string $programa,
@@ -22,6 +24,7 @@ readonly class Asignatura
 
     public static function fromArray(array $data): self
     {
+        $grupos = is_array($data['grupos']) ? $data['grupos'] : [];
         return new self(
             nombre: $data['nombre'],
             cursoAcad: $data['cursoAcad'],
@@ -32,8 +35,8 @@ readonly class Asignatura
             creditosT: $data['creditosT'],
             creditosP: $data['creditosP'],
             tipo: $data['tipo'],
-            coordinador: Persona::fromArray($data['coordinador']),
-            grupos: array_map(fn($grupo) => Grupo::fromArray($grupo), $data['grupos']),
+            coordinador: isset($data['coordinador']) ? Persona::fromArray($data['coordinador']) : null,
+            grupos: array_map(fn($grupo) => Grupo::fromArray($grupo), $grupos),
             programa: $data['programa'],
         );
     }
