@@ -111,7 +111,7 @@ class Api
     /**
      * Hacer búsqueda por DUMA vía web scraping.
      *
-     * @return Response<SearchResult>
+     * @return Response<SearchResult[]>
      */
     public function buscar(string $nombre, string $apellido_1, string $apellido_2): Response
     {
