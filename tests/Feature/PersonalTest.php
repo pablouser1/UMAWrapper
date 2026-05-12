@@ -11,4 +11,5 @@ test('success response with valid id', function (string $personal) {
 test('not success response with invalid id', function () {
     $res = $this->api->personal(fake()->md5());
     expect($res->success)->toBeFalse();
+    expect($res->code)->toBe(404);
 });

@@ -13,4 +13,5 @@ test('success response with valid id', function (int $asignatura, int $titulacio
 test('not success response with invalid id', function () {
     $res = $this->api->asignatura(fake()->numberBetween(9999), fake()->numberBetween(9999));
     expect($res->success)->toBeFalse();
+    expect($res->code)->toBe(404);
 });

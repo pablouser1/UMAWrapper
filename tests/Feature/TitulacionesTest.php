@@ -11,4 +11,5 @@ test('success response with valid id', function (int $centro) {
 test('not success response with invalid id', function () {
     $res = $this->api->titulaciones(fake()->numberBetween(9999));
     expect($res->success)->toBeFalse();
+    expect($res->code)->toBe(404);
 });

@@ -104,6 +104,7 @@ class Sender
         $options = [
             CURLOPT_HEADER => false,
             CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_USERAGENT => $this->getUserAgent(),
         ];
 

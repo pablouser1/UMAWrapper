@@ -13,4 +13,5 @@ test('success response with valid id', function (int $titulacion) {
 test('not success response with invalid id', function () {
     $res = $this->api->plan(fake()->numberBetween(9999));
     expect($res->success)->toBeFalse();
+    expect($res->code)->toBe(404);
 });
