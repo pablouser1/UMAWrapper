@@ -9,11 +9,12 @@ use UMA\Models\Departamento;
 use UMA\Models\Personal;
 use UMA\Models\Plan;
 use UMA\Models\Profesor;
+use UMA\Models\ProfesorBasic;
 use UMA\Models\Response;
 use UMA\Models\SearchResult;
 use UMA\Models\Titulacion;
 use UMA\Parsers\ApiParser;
-use UMA\Parsers\IdncToEmailParser;
+use UMA\Parsers\IdncToProfesorBasicParser;
 use UMA\Parsers\SearchParser;
 
 /**
@@ -95,15 +96,15 @@ class Api
     }
 
     /**
-     * Convierte un idnc a email haciendo scraping en la web
+     * Convierte un idnc a ProfesorBasic haciendo scraping en la web
      *
-     * @return Response<string>
+     * @return Response<ProfesorBasic>
      */
     public function profesorWeb(string $idnc): Response
     {
         return $this->sender->request(
             endpoint: "/buscador/persona/$idnc/",
-            parser: new IdncToEmailParser(),
+            parser: new IdncToProfesorBasicParser(),
             isJson: false,
         );
     }

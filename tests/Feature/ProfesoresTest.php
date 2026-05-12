@@ -2,6 +2,7 @@
 
 use UMA\Models\Profesor;
 
+use UMA\Models\ProfesorBasic;
 use function Pest\Faker\fake;
 
 test('success response with valid id', function (string $correo) {
@@ -18,7 +19,7 @@ test('not success response with invalid email', function () {
 test('can translate idnc to email with valid idnc', function (string $idnc) {
     $res = $this->api->profesorWeb($idnc);
     expect($res->success)->toBeTrue();
-    expect($res->data)->toBeString();
+    expect($res->data)->toBeInstanceOf(ProfesorBasic::class);
 })->with(['Sixto' => 'ce4ca780-b501-45b7-9443-5c5acd4cacd3']);
 
 test('cannot translate idnc to email with invalid idnc', function () {
