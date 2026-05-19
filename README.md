@@ -1,3 +1,11 @@
+> [!WARNING]
+> **This repository has moved to Codeberg!**
+> Development on GitHub has been discontinued, and this repository is now read-only.
+> 
+> New repository:
+> 🔗 **[codeberg.org/pablouser1/UMAWrapper](https://codeberg.org/pablouser1/UMAWrapper)**
+```
+
 # UMA Wrapper
 Wrapper para API de la Universidad de Málaga
 
